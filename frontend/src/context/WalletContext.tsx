@@ -47,15 +47,18 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const connect = async (username: string, role: string) => {
     try {
       await setAllowed();
-      const access = await requestAccess();
+      const access: any = await requestAccess();
       if (access) {
-        setPublicKey(access);
+        const address = typeof access === 'string' ? access : access.address;
+        if (!address) return;
+
+        setPublicKey(address);
         
         // For MVP, auto-register/login using the public key as password
         try {
           const loginRes = await api.post('/auth/login', {
-            email: `${access}@skillbounty.x`,
-            password: access
+            email: `${address}@skillbounty.x`,
+            password: address
           });
           localStorage.setItem('token', loginRes.data.token);
           setUser(loginRes.data.user);
@@ -64,9 +67,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             // Register
             const regRes = await api.post('/auth/register', {
               username,
-              email: `${access}@skillbounty.x`,
-              password: access,
-              wallet_address: access,
+              email: `${address}@skillbounty.x`,
+              password: address,
+              wallet_address: address,
               role
             });
             localStorage.setItem('token', regRes.data.token);
