@@ -36,4 +36,4 @@ const bountySchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Bounty', bountySchema);
+module.exports = mongoose.models.Bounty || mongoose.model('Bounty', bountySchema);
