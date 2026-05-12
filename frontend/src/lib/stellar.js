@@ -1,11 +1,11 @@
-const StellarSdk = require('@stellar/stellar-sdk');
+import * as StellarSdk from '@stellar/stellar-sdk';
 
 const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
 
 const ESCROW_SECRET = process.env.ESCROW_SECRET_KEY; // The platform's simulated escrow wallet
 const ESCROW_PUBLIC = process.env.ESCROW_PUBLIC_KEY;
 
-exports.releasePayment = async (destinationAddress, amountStr) => {
+export const releasePayment = async (destinationAddress, amountStr) => {
   if (!ESCROW_SECRET) {
     console.warn("No ESCROW_SECRET_KEY found, simulating payment for dev environment");
     return "simulated_tx_hash_" + Date.now();

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const bountySchema = new mongoose.Schema({
   title: {
@@ -36,4 +36,5 @@ const bountySchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.models.Bounty || mongoose.model('Bounty', bountySchema);
+const Bounty = mongoose.models.Bounty || mongoose.model('Bounty', bountySchema);
+export default Bounty;

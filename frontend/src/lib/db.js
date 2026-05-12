@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 let cached = global.mongoose;
 
@@ -16,13 +16,22 @@ const connectDB = async () => {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/skillbountyx', opts).then((mongoose) => {
+    const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillbountyx';
+
+    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
       console.log('MongoDB Connected');
       return mongoose;
     });
   }
-  cached.conn = await cached.promise;
+  
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
   return cached.conn;
 };
 
-module.exports = connectDB;
+export default connectDB;
