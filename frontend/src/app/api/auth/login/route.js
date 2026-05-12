@@ -25,6 +25,6 @@ export async function POST(req) {
     return NextResponse.json({ token, user: { id: user.id, username: user.username, role: user.role, wallet_address: user.wallet_address } });
   } catch (err) {
     console.error(err.message);
-    return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    return NextResponse.json({ message: 'Server error', error: err.message }, { status: 500 });
   }
 }

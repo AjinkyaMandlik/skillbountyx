@@ -36,6 +36,9 @@ export async function POST(req) {
     return NextResponse.json(bounty);
   } catch (err) {
     console.error(err.message);
-    return NextResponse.json({ message: err.message === 'No token, authorization denied' || err.message === 'Token is not valid' ? err.message : 'Server Error' }, { status: err.message.includes('token') ? 401 : 500 });
+    return NextResponse.json({ 
+      message: err.message === 'No token, authorization denied' || err.message === 'Token is not valid' ? err.message : 'Server Error',
+      error: err.message 
+    }, { status: err.message.includes('token') ? 401 : 500 });
   }
 }
